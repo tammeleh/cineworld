@@ -1,12 +1,23 @@
+import { Routes, Route } from 'react-router-dom'
+
 import './App.css'
+import MovieDetails from './pages/MovieDetails'
+import MovieList from './pages/MovieList'
 import Footer from './components/Footer'
 import Header from './components/Header'
+import Home from './pages/Home'
 
-function App() {
+const App = () => {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="container-with-px flex-grow py-8 md:py-12">main</main>
+      <main className="container-with-px flex-grow py-8 md:py-12">
+        <Routes>
+          <Route element={<Home />} path="/" />
+          <Route element={<MovieList />} path="/movies" />
+          <Route element={<MovieDetails />} path="/movies/:id" />
+        </Routes>
+      </main>
       <Footer />
     </div>
   )
