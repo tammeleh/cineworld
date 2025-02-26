@@ -6,10 +6,11 @@
   --color-foreground: oklch(0.985 0 0);
   --color-border: oklch(0.269 0 0);
   --color-ring: oklch(0.439 0 0);
+  --color-card: oklch(0.2 0 0);
 }
 
 @layer base {
-  html {
+  body {
     @apply bg-background text-foreground;
     font-family: 'Lexend Deca', sans-serif;
   }
