@@ -5,7 +5,7 @@ function App() {
   return (
     <div>
       <Header />
-      <main>main</main>
+      <main className="container-with-px py-8 md:py-12">main</main>
       <footer>footer</footer>
     </div>
   )

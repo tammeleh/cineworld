@@ -13,4 +13,8 @@
     @apply bg-background text-foreground;
     font-family: 'Lexend Deca', sans-serif;
   }
+
+  .container-with-px {
+    @apply container mx-auto px-4 md:px-8;
+  }
 }
