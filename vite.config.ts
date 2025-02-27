@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { fileURLToPath } from 'url'
+import svgr from 'vite-plugin-svgr'
 import path from 'path'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -13,5 +14,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), svgr()],
 })
