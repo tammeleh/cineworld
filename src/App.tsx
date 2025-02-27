@@ -3,8 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import MovieDetails from './pages/MovieDetails'
 import MovieList from './pages/MovieList'
-import Footer from './components/Footer'
 import Header from './components/Header'
+import Footer from './components/Footer'
 import Home from './pages/Home'
 
 const App = () => {
