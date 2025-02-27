@@ -9,6 +9,7 @@ interface PaginationProps {
   totalPages: number
 }
 
+// TODO: Improve Styles
 const Pagination = ({
   onPageChange,
   currentPage,

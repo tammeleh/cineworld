@@ -1,6 +1,7 @@
-import { API_TMDB_URL, API_TMDB_KEY } from '@/constants/tmdb'
 import { useEffect, useState } from 'react'
 
+// In-memory cache to store fetched data by query parameters.
+const cache = new Map<string, DiscoverMovieResponse>()
 export interface Movie {
   backdrop_path: string | null
   poster_path: string | null
@@ -21,7 +22,7 @@ export interface Movie {
 // https://developer.themoviedb.org/reference/discover-movie
 export interface DiscoverMovieParams {
   page?: number
-  // add any additional parameters from the docs if building a filter
+  // Add any additional parameters from the docs if building a filter
 }
 
 export interface DiscoverMovieResponse {
@@ -38,23 +39,28 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
 
   useEffect(() => {
     const fetchMovies = async () => {
+      const cacheKey = JSON.stringify(queryParams)
+      if (cache.has(cacheKey)) {
+        setData(cache.get(cacheKey)!)
+        return
+      }
+
       setIsLoading(true)
       setError(null)
 
       try {
         const params = new URLSearchParams({
           page: String(queryParams.page || 1),
-          api_key: API_TMDB_KEY,
         })
 
-        const response = await fetch(
-          `${API_TMDB_URL}/discover/movie?${params.toString()}`,
-        )
+        // Forward request to proxy server at ./api/tmdb.js
+        const response = await fetch(`/api/discover/movie?${params.toString()}`)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
         const json: DiscoverMovieResponse = await response.json()
         setData(json)
+        cache.set(cacheKey, json)
       } catch (err) {
         setError(err as Error)
       } finally {
