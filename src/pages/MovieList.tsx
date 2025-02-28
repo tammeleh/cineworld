@@ -15,14 +15,16 @@ const MovieList = () => {
 
   // TMDB's API only supports page numbers between 1 and 500, pages after 500 are not accessible.
   // See: https://developer.themoviedb.org/docs/errors code 22
-  const validTotalPages = data ? Math.min(data.total_pages, 500) : 0
+  const maxPagesFromTmdb = 500 // 20 items per page
+  const maxUiPages = maxPagesFromTmdb * 2 // Show 10 items per page
+  const validTotalPages = data ? Math.min(data.total_pages, maxUiPages) : 0
 
   if (error) return <div>Error: {error.message}</div>
-  console.log(data)
 
   return (
     <>
       <PageTitle>Discover Movies</PageTitle>
+
       {data && !isLoading && (
         <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
           {data.results.map((movie) => (

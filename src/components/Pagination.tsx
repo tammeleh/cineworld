@@ -30,11 +30,13 @@ const Pagination = ({
   }
 
   const btnBaseStyle =
-    'flex h-6 md:h-8 min-w-8 md:min-w-14 transition-colors text-sm md:text-md items-center justify-center rounded disabled:bg-gray-500'
+    'flex h-6 md:h-8 min-w-8 md:min-w-14 transition-colors text-xs md:text-md items-center justify-center rounded disabled:bg-gray-500'
   const arrowBtnStyle = clsx(
-    'hover:bg-yellow-500 disabled:bg-transparent',
+    'group hover:bg-yellow-500 hover:fill-black disabled:bg-transparent',
     btnBaseStyle,
   )
+  const arrowIconStyle =
+    'size-2 fill-white transition-colors group-hover:fill-black md:size-4'
 
   return (
     <nav
@@ -49,7 +51,7 @@ const Pagination = ({
         disabled={currentPage === 1}
         className={arrowBtnStyle}
       >
-        <ArrowRight className="size-2 rotate-180 md:size-4" fill="white" />
+        <ArrowRight className={clsx(arrowIconStyle, 'rotate-180')} />
       </button>
       {paginationRange.map((pageNumber, index) => {
         if (pageNumber === DOTS) {
@@ -80,7 +82,7 @@ const Pagination = ({
         disabled={currentPage === totalPages}
         className={arrowBtnStyle}
       >
-        <ArrowRight className="size-2 md:size-4" fill="white" />
+        <ArrowRight className={arrowIconStyle} />
       </button>
     </nav>
   )

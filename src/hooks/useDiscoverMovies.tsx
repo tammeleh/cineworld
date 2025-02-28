@@ -1,7 +1,9 @@
+import { getTmdbPagination } from '@/utils/getTmdbPagination'
 import { useEffect, useState } from 'react'
 
-// In-memory cache to store fetched data by query parameters.
+// In-memory cache to store full TMDB responses by effective query parameters (TMDB page)
 const cache = new Map<string, DiscoverMovieResponse>()
+
 export interface Movie {
   backdrop_path: string | null
   poster_path: string | null
@@ -19,17 +21,18 @@ export interface Movie {
   id: number
 }
 
-// https://developer.themoviedb.org/reference/discover-movie
-export interface DiscoverMovieParams {
-  page?: number
-  // Add any additional parameters from the docs if building a filter
-}
-
 export interface DiscoverMovieResponse {
   total_results: number
-  total_pages: number
+  total_pages: number // TMDB total pages (20 movies per page)
   results: Movie[]
   page: number
+}
+
+// https://developer.themoviedb.org/reference/discover-movie
+// TMDB returns 20 movies per page.
+export interface DiscoverMovieParams {
+  page?: number // UI page (10 movies per UI page)
+  // Add any additional parameters from the docs if building a filter
 }
 
 const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
@@ -37,11 +40,25 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
 
+  const uiPage = queryParams.page || 1
+  // Use the helper function to get the TMDB page and offset.
+  const { tmdbPage, offset } = getTmdbPagination(uiPage)
+
+  // Build effective query parameters for caching (based on TMDB page).
+  const effectiveParams = { ...queryParams, page: tmdbPage }
+  const cacheKey = JSON.stringify(effectiveParams)
+
   useEffect(() => {
     const fetchMovies = async () => {
-      const cacheKey = JSON.stringify(queryParams)
       if (cache.has(cacheKey)) {
-        setData(cache.get(cacheKey)!)
+        const cached = cache.get(cacheKey)!
+        const transformed: DiscoverMovieResponse = {
+          ...cached,
+          results: cached.results.slice(offset, offset + 10),
+          total_pages: cached.total_pages * 2,
+          page: uiPage,
+        }
+        setData(transformed)
         return
       }
 
@@ -50,7 +67,7 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
 
       try {
         const params = new URLSearchParams({
-          page: String(queryParams.page || 1),
+          page: String(tmdbPage),
         })
 
         // Forward request to proxy server at ./api/tmdb.js
@@ -59,8 +76,15 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
         const json: DiscoverMovieResponse = await response.json()
-        setData(json)
         cache.set(cacheKey, json)
+
+        const transformed: DiscoverMovieResponse = {
+          ...json,
+          results: json.results.slice(offset, offset + 10),
+          total_pages: json.total_pages * 2,
+          page: uiPage,
+        }
+        setData(transformed)
       } catch (err) {
         setError(err as Error)
       } finally {
@@ -69,7 +93,7 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
     }
 
     fetchMovies()
-  }, [queryParams])
+  }, [cacheKey, offset, tmdbPage, uiPage])
 
   return { isLoading, error, data }
 }
