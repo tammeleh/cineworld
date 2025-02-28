@@ -7,13 +7,14 @@ interface PaginationProps {
   onPageChange: (page: number) => void
   currentPage: number
   totalPages: number
+  className?: string
 }
 
-// TODO: Improve Styles
 const Pagination = ({
   onPageChange,
   currentPage,
   totalPages,
+  className,
 }: PaginationProps) => {
   const paginationRange = getPaginationRange(currentPage, totalPages)
 
@@ -29,20 +30,26 @@ const Pagination = ({
   }
 
   const btnBaseStyle =
-    'flex h-8 min-w-14 transition-colors items-center justify-center rounded disabled:bg-gray-500'
+    'flex h-6 md:h-8 min-w-8 md:min-w-14 transition-colors text-sm md:text-md items-center justify-center rounded disabled:bg-gray-500'
   const arrowBtnStyle = clsx(
-    'hover:bg-blue-500 disabled:bg-transparent',
+    'hover:bg-yellow-500 disabled:bg-transparent',
     btnBaseStyle,
   )
 
   return (
-    <div className="mt-4 flex w-14 items-center gap-2">
+    <nav
+      className={clsx(
+        'flex w-full items-center justify-center gap-2',
+        className,
+      )}
+      aria-labelledby="pagination"
+    >
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className={arrowBtnStyle}
       >
-        <ArrowRight className="size-4 rotate-180" fill="white" />
+        <ArrowRight className="size-2 rotate-180 md:size-4" fill="white" />
       </button>
       {paginationRange.map((pageNumber, index) => {
         if (pageNumber === DOTS) {
@@ -58,7 +65,7 @@ const Pagination = ({
               btnBaseStyle,
               'border',
               pageNumber === currentPage
-                ? 'pointer-events-none bg-blue-500 text-white'
+                ? 'pointer-events-none border border-white bg-yellow-500 text-black'
                 : '',
             )}
             onClick={() => onPageClick(pageNumber as number)}
@@ -73,9 +80,9 @@ const Pagination = ({
         disabled={currentPage === totalPages}
         className={arrowBtnStyle}
       >
-        <ArrowRight className="size-4 border-0" fill="white" />
+        <ArrowRight className="size-2 md:size-4" fill="white" />
       </button>
-    </div>
+    </nav>
   )
 }
 

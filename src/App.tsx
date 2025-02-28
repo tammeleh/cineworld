@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
 
-import './App.css'
 import MovieDetails from './pages/MovieDetails'
 import MovieList from './pages/MovieList'
 import Header from './components/Header'

@@ -1,6 +1,9 @@
 import useDiscoverMovies from '@/hooks/useDiscoverMovies'
 import Pagination from '@/components/Pagination'
+import CardMovie from '@/components/CardMovie'
+import PageTitle from '@/components/PageTitle'
 import { useState, useMemo } from 'react'
+import clsx from 'clsx'
 
 const MovieList = () => {
   const [page, setPage] = useState(1)
@@ -14,36 +17,35 @@ const MovieList = () => {
   // See: https://developer.themoviedb.org/docs/errors code 22
   const validTotalPages = data ? Math.min(data.total_pages, 500) : 0
 
-  if (isLoading) return <div>Loading movies...</div>
   if (error) return <div>Error: {error.message}</div>
   console.log(data)
+
   return (
-    <div>
-      <h2>Movies</h2>
-      {data && (
-        <>
-          <p>
-            Total Results: {data.total_results} | Total Pages: {validTotalPages}
-            {data.total_pages}
-          </p>
-          <ol>
-            {data.results.map((movie, i) => (
-              <li key={movie.id}>
-                <h3>
-                  {i + 1} - {movie.title}
-                </h3>
-                {/* <p>{movie.overview}</p> */}
-              </li>
-            ))}
-          </ol>
-          <Pagination
-            onPageChange={(newPage) => setPage(newPage)}
-            totalPages={validTotalPages}
-            currentPage={page}
-          />
-        </>
+    <>
+      <PageTitle>Discover Movies</PageTitle>
+      {data && !isLoading && (
+        <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
+          {data.results.map((movie) => (
+            <li key={movie.id}>
+              <CardMovie
+                imageId={movie.backdrop_path || ''}
+                rating={movie.vote_average}
+                overview={movie.overview}
+                title={movie.title}
+                movieId={movie.id}
+              />
+            </li>
+          ))}
+        </ul>
       )}
-    </div>
+      {isLoading && <div>Loading...</div>}
+      <Pagination
+        className={clsx('mt-4 md:mt-8', isLoading && 'pointer-events-none')}
+        onPageChange={(newPage) => setPage(newPage)}
+        totalPages={validTotalPages}
+        currentPage={page}
+      />
+    </>
   )
 }
 
