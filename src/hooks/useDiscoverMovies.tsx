@@ -27,7 +27,7 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
         const transformed: TmdbListResponse = {
           ...cached,
           results: cached.results.slice(offset, offset + 10),
-          total_pages: cached.total_pages * 2,
+          total_pages: Math.ceil(cached.total_results / 10),
           page: uiPage,
         }
         setData(transformed)
@@ -53,7 +53,7 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
         const transformed: TmdbListResponse = {
           ...json,
           results: json.results.slice(offset, offset + 10),
-          total_pages: json.total_pages * 2,
+          total_pages: Math.ceil(json.total_results / 10),
           page: uiPage,
         }
         setData(transformed)
