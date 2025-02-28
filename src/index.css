@@ -11,6 +11,10 @@
 }
 
 @layer base {
+  * {
+    @apply focus:outline-yellow-500;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Lexend Deca', sans-serif;
