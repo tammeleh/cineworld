@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import useDiscoverMovies from '@/hooks/useDiscoverMovies'
 import useSearchMovies from '@/hooks/useSearchMovies'
+import { useEffect, useState, useMemo } from 'react'
 import SearchInput from '@/components/SearchInput'
 import Pagination from '@/components/Pagination'
 import CardMovie from '@/components/CardMovie'
 import PageTitle from '@/components/PageTitle'
 import useDebounce from '@/hooks/useDebounce'
-import { useState, useMemo } from 'react'
 import clsx from 'clsx'
 
 const MovieList = () => {
@@ -37,6 +37,13 @@ const MovieList = () => {
   const maxPagesFromTmdb = 500
   const maxUiPages = maxPagesFromTmdb * 2
   const validTotalPages = data ? Math.min(data.total_pages, maxUiPages) : 0
+
+  useEffect(() => {
+    if (isSearching && page !== 1) {
+      setPage(1)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSearching])
 
   if (error) return <div>Error: {error.message}</div>
 
