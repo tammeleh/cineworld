@@ -23,7 +23,9 @@ export const Header = () => {
             alt="CineWorld Logo"
             src="/film.svg"
           />
-          <h1 className="text-lg font-bold md:text-xl">CineWorld</h1>
+          <div className="text-lg font-bold md:text-xl" aria-label="Brand">
+            CineWorld
+          </div>
         </Link>
         <ul className="md:text-md flex items-center gap-4 text-sm">
           <NavItem to="/">Home</NavItem>

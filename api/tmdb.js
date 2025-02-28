@@ -27,6 +27,26 @@ app.get('/api/discover/movie', async (req, res) => {
   }
 })
 
+app.get('/api/search/movie', async (req, res) => {
+  try {
+    const queryParams = new URLSearchParams(req.query)
+    queryParams.set('api_key', API_KEY)
+
+    const response = await fetch(
+      `${API_URL}/search/movie?${queryParams.toString()}`,
+    )
+    if (!response.ok) {
+      res.status(response.status).json({ error: 'Error fetching from TMDB' })
+      return
+    }
+    const data = await response.json()
+    res.json(data)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Server error' })
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Proxy server listening on port ${PORT}`)
 })

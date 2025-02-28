@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react'
 
 const cache = new Map<string, TmdbListResponse>()
 
-export interface DiscoverMovieParams {
+export interface SearchMovieParams {
+  query?: string
   page?: number
   // Add any additional parameters from the docs if building a filter.
 }
 
-const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
+const useSearchMovie = (queryParams: SearchMovieParams) => {
   const [data, setData] = useState<TmdbListResponse | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
@@ -17,7 +18,7 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
   const uiPage = queryParams.page || 1
   const { tmdbPage, offset } = getTmdbPagination(uiPage)
 
-  const effectiveParams = { ...queryParams, page: tmdbPage }
+  const effectiveParams = { query: queryParams.query ?? '', page: tmdbPage }
   const cacheKey = JSON.stringify(effectiveParams)
 
   useEffect(() => {
@@ -39,11 +40,12 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
 
       try {
         const params = new URLSearchParams({
+          query: effectiveParams.query,
           page: String(tmdbPage),
         })
 
         // Forward request to proxy server at ./api/tmdb.js
-        const response = await fetch(`/api/discover/movie?${params.toString()}`)
+        const response = await fetch(`/api/search/movie?${params.toString()}`)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
@@ -65,9 +67,10 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
     }
 
     fetchMovies()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cacheKey, offset, tmdbPage, uiPage])
 
   return { isLoading, error, data }
 }
 
-export default useDiscoverMovies
+export default useSearchMovie

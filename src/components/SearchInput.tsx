@@ -4,8 +4,8 @@ import clsx from 'clsx'
 
 interface SearchInputProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  onSearch?: () => void
   placeholder?: string
-  onSearch: () => void
   className?: string
   value: string
 }
@@ -18,9 +18,8 @@ const SearchInput = ({
   value,
 }: SearchInputProps) => {
   const handleSubmit = (e: FormEvent) => {
-    console.log('Submitted')
     e.preventDefault()
-    onSearch()
+    onSearch?.()
   }
 
   return (
@@ -36,7 +35,7 @@ const SearchInput = ({
         className="border-border absolute inset-x-0 bottom-0 border-t peer-focus:border-t-2 peer-focus:border-yellow-500"
         aria-hidden="true"
       />
-      <button className="absolute top-1/2 right-2 flex size-9 -translate-y-1/2 transform cursor-pointer items-center justify-center transition-all duration-300 hover:scale-105 hover:rotate-y-360">
+      <button className="absolute top-1/2 right-2 flex size-9 -translate-y-1/2 transform cursor-pointer items-center justify-center">
         <Search className="size-4 fill-yellow-500" />
       </button>
     </form>
