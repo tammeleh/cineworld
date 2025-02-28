@@ -31,6 +31,7 @@ const MovieList = () => {
     ? useSearchMovies(queryParams)
     : useDiscoverMovies(queryParams)
 
+  console.log(data)
   // TMDB's API limits: max 500 TMDB pages (20 items per page).
   // For our UI (10 items per page), total UI pages = TMDB total_pages * 2.
   const maxPagesFromTmdb = 500
@@ -50,7 +51,7 @@ const MovieList = () => {
           {data.results.map((movie) => (
             <li key={movie.id}>
               <CardMovie
-                imageId={movie.backdrop_path || ''}
+                imageId={movie.backdrop_path}
                 rating={movie.vote_average}
                 overview={movie.overview}
                 title={movie.title}

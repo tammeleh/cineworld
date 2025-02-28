@@ -1,3 +1,4 @@
+import placeholder from '@/assets/placeholder-image.webp'
 import formatRating from '@/utils/formatRating'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
@@ -5,9 +6,9 @@ import clsx from 'clsx'
 import Card from './Card'
 
 interface CardMovieProps {
+  imageId: string | null
   className?: string
   overview: string
-  imageId: string
   movieId: number
   rating: number
   title: string
@@ -21,8 +22,9 @@ const CardMovie = ({
   rating,
   title,
 }: CardMovieProps) => {
-  const getImageUrl = (imageId: string) => {
-    return `https://image.tmdb.org/t/p/w500/${imageId}.jpg`
+  const getImageUrl = (imageId: CardMovieProps['imageId']) => {
+    if (imageId) return `https://image.tmdb.org/t/p/w500/${imageId}.jpg`
+    return placeholder
   }
 
   return (
