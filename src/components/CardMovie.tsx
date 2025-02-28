@@ -35,24 +35,32 @@ const CardMovie = ({
           className,
         )}
       >
-        <img
-          className="border-border rounded-t border"
-          src={getImageUrl(imageId)}
-          alt={title}
-        />
+        <div className="border-border relative aspect-[16/9] w-full overflow-hidden rounded-t border">
+          <img
+            className="h-full w-full object-cover"
+            src={getImageUrl(imageId)}
+            loading="lazy"
+            alt={title}
+          />
+        </div>
         <h2 className="text-md font-bold" aria-label="Movie title">
           {title}
         </h2>
         <p
-          className="text-paragraph line-clamp-5 flex-grow text-xs font-thin"
+          className="text-paragraph line-clamp-5 max-h-20 text-xs font-thin"
           aria-label="Movie overview"
         >
           {overview}
         </p>
-        <div className="ml-auto inline text-sm" aria-label="Movie rating">
-          Rating:{' '}
-          <span className="text-yellow-400">{formatRating(rating)}</span>
-        </div>
+        {rating !== 0 && (
+          <div
+            className="mt-auto ml-auto inline text-sm"
+            aria-label="Movie rating"
+          >
+            Rating:{' '}
+            <span className="text-yellow-400">{formatRating(rating)}</span>
+          </div>
+        )}
       </Card>
     </Link>
   )
