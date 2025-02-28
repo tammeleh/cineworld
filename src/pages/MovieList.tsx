@@ -5,6 +5,7 @@ import SearchInput from '@/components/SearchInput'
 import Pagination from '@/components/Pagination'
 import CardMovie from '@/components/CardMovie'
 import PageTitle from '@/components/PageTitle'
+import useDebounce from '@/hooks/useDebounce'
 import { useState, useMemo } from 'react'
 import clsx from 'clsx'
 
@@ -16,13 +17,13 @@ const MovieList = () => {
     setSearchQuery(e.target.value)
   }
 
-  const isSearching = searchQuery.trim().length > 0
+  const debouncedSearchQuery = useDebounce(searchQuery, 500)
+  const isSearching = debouncedSearchQuery.trim().length > 0
 
   // Build query parameters for the hook.
-  // For search mode, include the "query" parameter; otherwise, just page.
   const queryParams = useMemo(
-    () => (isSearching ? { query: searchQuery, page } : { page }),
-    [isSearching, searchQuery, page],
+    () => (isSearching ? { query: debouncedSearchQuery, page } : { page }),
+    [isSearching, debouncedSearchQuery, page],
   )
 
   // Use the appropriate hook: useSearchMovies if searching, else useDiscoverMovies.
