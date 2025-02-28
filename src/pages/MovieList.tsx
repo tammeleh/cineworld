@@ -31,7 +31,6 @@ const MovieList = () => {
     ? useSearchMovies(queryParams)
     : useDiscoverMovies(queryParams)
 
-  console.log(data)
   // TMDB's API limits: max 500 TMDB pages (20 items per page).
   // For our UI (10 items per page), total UI pages = TMDB total_pages * 2.
   const maxPagesFromTmdb = 500
@@ -47,13 +46,25 @@ const MovieList = () => {
 
   if (error) return <div>Error: {error.message}</div>
 
+  const hasResults = data && data.results.length > 0
+
   return (
     <>
       <PageTitle>
         {isSearching ? 'Search Results' : 'Discover Movies'}
         <SearchInput onChange={handleSearchChange} value={searchQuery} />
       </PageTitle>
-      {data && !isLoading && (
+      {!hasResults && !isLoading && (
+        <div className="mt-12 flex flex-col gap-8 text-center md:mt-12">
+          <div className="text-5xl md:text-9xl" aria-label="Shrug">
+            ¯\_(ツ)_/¯
+          </div>
+          <p className="text-paragraph text-xs md:text-base">
+            Found no results for "{debouncedSearchQuery}"
+          </p>
+        </div>
+      )}
+      {hasResults && !isLoading && (
         <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
           {data.results.map((movie) => (
             <li key={movie.id}>
