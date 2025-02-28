@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import MovieCardListSkeleton from '@/components/skeletons/MovieCardListSkeleton'
 import useDiscoverMovies from '@/hooks/useDiscoverMovies'
 import useSearchMovies from '@/hooks/useSearchMovies'
 import { useEffect, useState, useMemo } from 'react'
@@ -79,7 +80,7 @@ const MovieList = () => {
           ))}
         </ul>
       )}
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <MovieCardListSkeleton />}
       <Pagination
         className={clsx('mt-4 md:mt-8', isLoading && 'pointer-events-none')}
         onPageChange={(newPage) => setPage(newPage)}
