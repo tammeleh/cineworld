@@ -52,7 +52,7 @@ const CardMovie = ({
         >
           {overview}
         </p>
-        {rating !== 0 && (
+        {rating !== 0 && rating && (
           <div
             className="mt-auto ml-auto inline text-sm"
             aria-label="Movie rating"
