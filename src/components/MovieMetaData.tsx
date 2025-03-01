@@ -15,7 +15,7 @@ const MovieMetaData = ({ className, data }: MovieMetaDataProps) => {
   return (
     <div
       className={clsx(
-        'text-paragraph mb-4 flex flex-col gap-1 py-1.5 text-xs lg:gap-2 lg:text-base',
+        'mb-4 flex flex-col gap-1 py-1.5 text-xs text-gray-500 lg:gap-2 lg:text-base',
         className,
       )}
     >

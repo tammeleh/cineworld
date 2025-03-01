@@ -42,7 +42,7 @@ const CardMovie = ({
           {title}
         </h2>
         <p
-          className="text-paragraph line-clamp-5 max-h-20 text-xs font-thin"
+          className="line-clamp-5 max-h-20 text-xs font-thin text-gray-500"
           aria-label="Movie overview"
         >
           {overview}
