@@ -36,8 +36,31 @@ app.get('/api/search/movie', async (req, res) => {
       `${API_URL}/search/movie?${queryParams.toString()}`,
     )
     if (!response.ok) {
-      res.status(response.status).json({ error: 'Error fetching from TMDB' })
-      return
+      return res
+        .status(response.status)
+        .json({ error: 'Error fetching from TMDB' })
+    }
+    const data = await response.json()
+    res.json(data)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Server error' })
+  }
+})
+
+app.get('/api/movie/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const queryParams = new URLSearchParams(req.query)
+    queryParams.set('api_key', API_KEY)
+
+    const response = await fetch(
+      `${API_URL}/movie/${id}?${queryParams.toString()}`,
+    )
+    if (!response.ok) {
+      return res
+        .status(response.status)
+        .json({ error: 'Error fetching movie details from TMDB' })
     }
     const data = await response.json()
     res.json(data)
