@@ -25,8 +25,8 @@ const MovieCardListSkeleton = () => {
   const skeletons = Array.from({ length: 10 }, (_, i) => i)
   return (
     <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
-      {skeletons.map(() => (
-        <MovieCardSkeleton />
+      {skeletons.map((_, i) => (
+        <MovieCardSkeleton key={i} />
       ))}
     </div>
   )
