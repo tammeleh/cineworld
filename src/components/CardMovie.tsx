@@ -1,4 +1,4 @@
-import placeholder from '@/assets/placeholder-image.webp'
+import getTmdbImageUrl from '@/utils/getTmdbImageUrl'
 import formatRating from '@/utils/formatRating'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
@@ -22,11 +22,6 @@ const CardMovie = ({
   rating,
   title,
 }: CardMovieProps) => {
-  const getImageUrl = (imageId: CardMovieProps['imageId']) => {
-    if (imageId) return `https://image.tmdb.org/t/p/w500/${imageId}.jpg`
-    return placeholder
-  }
-
   return (
     <Link className="transition-all hover:scale-50" to={`/movies/${movieId}`}>
       <Card
@@ -38,9 +33,9 @@ const CardMovie = ({
         <div className="border-border relative aspect-[16/9] w-full overflow-hidden rounded-t border">
           <img
             className="h-full w-full object-cover"
-            src={getImageUrl(imageId)}
+            src={getTmdbImageUrl(imageId)}
+            alt="Movie Poster"
             loading="lazy"
-            alt={title}
           />
         </div>
         <h2 className="text-md font-bold" aria-label="Movie title">
