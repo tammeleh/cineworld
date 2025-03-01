@@ -3,6 +3,7 @@ import useMovieDetails from '@/hooks/useMovieDetails'
 import getTmdbImageUrl from '@/utils/getTmdbImageUrl'
 import SectionTitle from '@/components/SectionTitle'
 import CastMember from '@/components/CastMember'
+import ReviewCard from '@/components/ReviewCard'
 import PageTitle from '@/components/PageTitle'
 import { useParams } from 'react-router-dom'
 import Card from '@/components/Card'
@@ -27,7 +28,7 @@ const MovieDetails = () => {
         <div className="md:hidden">
           <div className="border-border relative aspect-[16/9] w-full overflow-hidden rounded border">
             <img
-              src={getTmdbImageUrl(data.backdrop_path)}
+              src={getTmdbImageUrl(data.backdrop_path, 'w500')}
               className="h-full w-full object-cover"
               alt="Movie Poster"
               loading="lazy"
@@ -38,7 +39,7 @@ const MovieDetails = () => {
         <div className="hidden md:block">
           <div className="border-border relative aspect-[2/3] w-full max-w-xs overflow-hidden rounded border lg:max-w-auto">
             <img
-              src={getTmdbImageUrl(data.poster_path)}
+              src={getTmdbImageUrl(data.poster_path, 'w780')}
               className="h-full w-full object-cover"
               alt="Movie Poster"
               loading="lazy"
@@ -49,7 +50,7 @@ const MovieDetails = () => {
           <PageTitle>{data.title}</PageTitle>
           <MovieMetaData data={data} />
           <p
-            className="max-w-[500px] text-sm font-thin text-gray-500 lg:max-w-[800px] lg:text-base"
+            className="max-w-[31.25rem] text-sm font-thin text-gray-500 lg:max-w-[50rem] lg:text-base"
             aria-label="Movie overview"
           >
             {data.overview}
@@ -59,36 +60,38 @@ const MovieDetails = () => {
 
       <section>
         <SectionTitle>Cast</SectionTitle>
-        {data.credits?.cast && data.credits.cast.length > 0 && (
+        {data.credits?.cast && data.credits.cast.length > 0 ? (
           <ul className="flex flex-col flex-wrap gap-8 sm:flex-row">
             {data.credits.cast.slice(0, maxCast).map((member) => (
-              <CastMember castMember={member} key={member.id} />
+              <li key={member.id}>
+                <CastMember castMember={member} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div>No cast information available.</div>
+        )}
+      </section>
+
+      <section>
+        <SectionTitle>Reviews</SectionTitle>
+        {data.reviews?.results && data.reviews.results.length > 0 && (
+          <ul className="flex flex-col gap-2">
+            {data.reviews.results.slice(0, maxReviews).map((review) => (
+              <li key={review.id}>
+                <ReviewCard review={review} />
+              </li>
             ))}
           </ul>
         )}
       </section>
 
-      <div className="flex flex-col gap-8">
-        <Card>
-          {data.reviews?.results && data.reviews.results.length > 0 && (
-            <>
-              <h2>Reviews</h2>
-              <ul>
-                {data.reviews.results.slice(0, maxReviews).map((review) => (
-                  <li key={review.id}>
-                    <strong>{review.author}:</strong> {review.content}
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-        </Card>
-
+      <section>
         <Card>
           {data.similar?.results && data.similar.results.length > 0 && (
             <>
-              <h2>Similar Movies</h2>
-              <ul>
+              <SectionTitle>Similar Movies</SectionTitle>
+              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {data.similar.results.slice(0, maxSimilar).map((movie) => (
                   <li key={movie.id}>{movie.title}</li>
                 ))}
@@ -96,7 +99,7 @@ const MovieDetails = () => {
             </>
           )}
         </Card>
-      </div>
+      </section>
     </div>
   )
 }

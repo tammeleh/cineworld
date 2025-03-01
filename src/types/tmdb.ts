@@ -82,6 +82,21 @@ export interface MovieSummary {
   id: number
 }
 
+export interface Review {
+  author_details: {
+    avatar_path: string | null
+    rating: number | null
+    username: string
+    name: string
+  }
+  created_at: string
+  updated_at: string
+  content: string
+  author: string
+  url: string
+  id: string
+}
+
 export interface CastMember {
   profile_path: string | null
   gender: number | null
@@ -110,11 +125,4 @@ export interface TmdbListResponse {
   total_pages: number // TMDB total pages (20 items per page)
   results: Movie[]
   page: number
-}
-
-export interface Review {
-  content: string
-  author: string
-  url: string
-  id: string
 }
