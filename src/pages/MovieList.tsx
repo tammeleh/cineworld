@@ -1,17 +1,16 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import MovieCardListSkeleton from '@/components/skeletons/MovieCardListSkeleton'
-import useDiscoverMovies from '@/hooks/useDiscoverMovies'
-import useSearchMovies from '@/hooks/useSearchMovies'
 import { useEffect, useState, useMemo } from 'react'
 import SearchInput from '@/components/SearchInput'
 import Pagination from '@/components/Pagination'
 import CardMovie from '@/components/CardMovie'
 import PageTitle from '@/components/PageTitle'
 import useDebounce from '@/hooks/useDebounce'
+import useMovies from '@/hooks/useMovies'
 import clsx from 'clsx'
 
 const MovieList = () => {
-  const [page, setPage] = useState(1)
+  const [discoverPage, setDiscoverPage] = useState(1)
+  const [searchPage, setSearchPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,33 +20,40 @@ const MovieList = () => {
   const debouncedSearchQuery = useDebounce(searchQuery, 500)
   const isSearching = debouncedSearchQuery.trim().length > 0
 
-  // Build query parameters for the hook.
+  useEffect(() => {
+    if (isSearching) {
+      setSearchPage(1)
+    } else {
+      setDiscoverPage(1)
+    }
+  }, [debouncedSearchQuery, isSearching])
+
   const queryParams = useMemo(
-    () => (isSearching ? { query: debouncedSearchQuery, page } : { page }),
-    [isSearching, debouncedSearchQuery, page],
+    () =>
+      isSearching
+        ? { query: debouncedSearchQuery, page: searchPage }
+        : { page: discoverPage },
+    [isSearching, debouncedSearchQuery, discoverPage, searchPage],
   )
 
-  // Use the appropriate hook: useSearchMovies if searching, else useDiscoverMovies.
-  const { isLoading, error, data } = isSearching
-    ? useSearchMovies(queryParams)
-    : useDiscoverMovies(queryParams)
+  const { isLoading, error, data } = useMovies(queryParams)
 
-  // TMDB's API limits: max 500 TMDB pages (20 items per page).
-  // For our UI (10 items per page), total UI pages = TMDB total_pages * 2.
-  const maxPagesFromTmdb = 500
-  const maxUiPages = maxPagesFromTmdb * 2
+  // Tmdb returns maximum of 500 pages and each page has 20 movies.
+  // On ui we show 10 movies per page as per the requirements.
+  const maxUiPages = 1000
   const validTotalPages = data ? Math.min(data.total_pages, maxUiPages) : 0
+  const hasResults = data && data.results.length > 0
 
-  useEffect(() => {
-    if (isSearching && page !== 1) {
-      setPage(1)
+  const handlePaginationChange = (newPage: number) => {
+    if (isSearching) {
+      setSearchPage(newPage)
+    } else {
+      setDiscoverPage(newPage)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSearching])
+  }
+  const paginationCurrentPage = isSearching ? searchPage : discoverPage
 
   if (error) return <div>Error: {error.message}</div>
-
-  const hasResults = data && data.results.length > 0
 
   return (
     <>
@@ -55,16 +61,18 @@ const MovieList = () => {
         {isSearching ? 'Search Results' : 'Discover Movies'}
         <SearchInput onChange={handleSearchChange} value={searchQuery} />
       </PageTitle>
-      {!hasResults && !isLoading && (
+
+      {!hasResults && !isLoading && isSearching && (
         <div className="mt-12 flex flex-col gap-8 text-center md:mt-12">
           <div className="text-5xl md:text-9xl" aria-label="Shrug">
             ¯\_(ツ)_/¯
           </div>
-          <p className="text-paragraph text-xs md:text-base">
+          <p className="text-xs text-gray-500 md:text-base">
             Found no results for "{debouncedSearchQuery}"
           </p>
         </div>
       )}
+
       {hasResults && !isLoading && (
         <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
           {data.results.map((movie) => (
@@ -80,12 +88,14 @@ const MovieList = () => {
           ))}
         </ul>
       )}
+
       {isLoading && <MovieCardListSkeleton />}
+
       <Pagination
         className={clsx('mt-4 md:mt-8', isLoading && 'pointer-events-none')}
-        onPageChange={(newPage) => setPage(newPage)}
+        onPageChange={handlePaginationChange}
+        currentPage={paginationCurrentPage}
         totalPages={validTotalPages}
-        currentPage={page}
       />
     </>
   )

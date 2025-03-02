@@ -4,20 +4,23 @@ import { useEffect, useState } from 'react'
 
 const cache = new Map<string, TmdbListResponse>()
 
-export interface DiscoverMovieParams {
+export interface MoviesParams {
+  query?: string
   page?: number
-  // Add any additional parameters from the docs if building a filter.
 }
 
-const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
+const useMovies = (queryParams: MoviesParams = {}) => {
   const [data, setData] = useState<TmdbListResponse | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error | null>(null)
 
+  const isSearching = Boolean(queryParams.query?.trim())
   const uiPage = queryParams.page || 1
   const { tmdbPage, offset } = getTmdbPagination(uiPage)
 
-  const effectiveParams = { ...queryParams, page: tmdbPage }
+  const effectiveParams = isSearching
+    ? { query: queryParams.query?.trim() || '', page: tmdbPage }
+    : { page: tmdbPage }
   const cacheKey = JSON.stringify(effectiveParams)
 
   useEffect(() => {
@@ -31,6 +34,8 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
           page: uiPage,
         }
         setData(transformed)
+        setIsLoading(false)
+        setError(null)
         return
       }
 
@@ -41,15 +46,21 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
         const params = new URLSearchParams({
           page: String(tmdbPage),
         })
+        if (isSearching) {
+          params.append('query', queryParams.query!.trim())
+        }
 
         // Forward request to proxy server at ./api/tmdb.js
-        const response = await fetch(`/api/discover/movie?${params.toString()}`)
+        const endpoint = isSearching
+          ? '/api/search/movie'
+          : '/api/discover/movie'
+        const response = await fetch(`${endpoint}?${params.toString()}`)
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
         const json: TmdbListResponse = await response.json()
         cache.set(cacheKey, json)
-
         const transformed: TmdbListResponse = {
           ...json,
           results: json.results.slice(offset, offset + 10),
@@ -65,9 +76,9 @@ const useDiscoverMovies = (queryParams: DiscoverMovieParams = {}) => {
     }
 
     fetchMovies()
-  }, [cacheKey, offset, tmdbPage, uiPage])
+  }, [cacheKey, offset, tmdbPage, uiPage, isSearching, queryParams.query])
 
   return { isLoading, error, data }
 }
 
-export default useDiscoverMovies
+export default useMovies
