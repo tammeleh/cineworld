@@ -1,4 +1,4 @@
-# Entain
+# CineWorld
 
 ## Project setup
 
@@ -13,3 +13,7 @@
 
 1. `npm i` - install dependencies
 2. `npm run dev` - open localhost
+
+## How to run unit tests
+
+- `npm run test`
