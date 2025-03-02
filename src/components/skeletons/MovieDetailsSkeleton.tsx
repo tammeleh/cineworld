@@ -13,7 +13,7 @@ const MovieDetailsSkeleton = () => {
           </div>
         </div>
         <div className="hidden md:block">
-          <div className="md:h-[400px] md:w-[266px] xl:h-[478px] xl:w-[318px]">
+          <div className="md:h-[478px] md:w-[318px]">
             <Skeleton className="h-full w-full" />
           </div>
         </div>
@@ -53,7 +53,6 @@ const MovieDetailsSkeleton = () => {
           <Skeleton className="h-20 w-full max-w-[500px]" />
         </div>
       </section>
-
       <section>
         <SectionTitle>Cast</SectionTitle>
         <ul className="flex flex-col flex-wrap gap-8 sm:flex-row">

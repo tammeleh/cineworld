@@ -26,26 +26,22 @@ const MovieDetails = () => {
   return (
     <div className="flex flex-col gap-4 lg:gap-8">
       <section className="flex flex-col gap-4 md:flex-row">
-        <div className="md:hidden">
-          <div className="border-border relative aspect-[16/9] w-full overflow-hidden rounded border">
-            <img
-              src={getTmdbImageUrl(data.backdrop_path, 'w500')}
-              className="h-full w-full object-cover"
-              alt="Movie Poster"
-              loading="lazy"
-            />
-          </div>
+        <div className="border-border relative aspect-[16/9] w-full overflow-hidden rounded border md:hidden">
+          <img
+            src={getTmdbImageUrl(data.backdrop_path, 'w500')}
+            className="h-full w-full object-cover"
+            alt="Movie Poster"
+            loading="lazy"
+          />
         </div>
 
-        <div className="hidden md:block">
-          <div className="border-border relative aspect-[2/3] w-full max-w-xs overflow-hidden rounded border lg:max-w-auto">
-            <img
-              src={getTmdbImageUrl(data.poster_path, 'w780')}
-              className="h-full w-full object-cover"
-              alt="Movie Poster"
-              loading="lazy"
-            />
-          </div>
+        <div className="border-border relative hidden aspect-[2/3] w-full max-w-xs overflow-hidden rounded border md:block lg:max-w-auto">
+          <img
+            src={getTmdbImageUrl(data.poster_path, 'w780')}
+            className="h-full w-full object-cover"
+            alt="Movie Poster"
+            loading="lazy"
+          />
         </div>
 
         <div>
