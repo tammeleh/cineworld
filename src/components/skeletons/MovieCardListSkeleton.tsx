@@ -1,6 +1,5 @@
+import Skeleton from '@/components/skeletons/Skeleton'
 import Card from '@/components/Card'
-
-import Skeleton from './Skeleton'
 
 const MovieCardSkeleton = () => {
   return (
@@ -21,8 +20,13 @@ const MovieCardSkeleton = () => {
   )
 }
 
-const MovieCardListSkeleton = () => {
-  const skeletons = Array.from({ length: 10 }, (_, i) => i)
+interface MovieCardListSkeletonProps {
+  cardAmount?: number
+}
+const MovieCardListSkeleton = ({
+  cardAmount = 10,
+}: MovieCardListSkeletonProps) => {
+  const skeletons = Array.from({ length: cardAmount }, (_, i) => i)
   return (
     <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
       {skeletons.map((_, i) => (

@@ -1,3 +1,4 @@
+import MovieDetailsSkeleton from '@/components/skeletons/MovieDetailsSkeleton'
 import MovieMetaData from '@/components/MovieMetaData'
 import useMovieDetails from '@/hooks/useMovieDetails'
 import getTmdbImageUrl from '@/utils/getTmdbImageUrl'
@@ -12,7 +13,7 @@ const MovieDetails = () => {
   const { id } = useParams()
   const { isLoading, error, data } = useMovieDetails(id)
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <MovieDetailsSkeleton />
   if (error) return <div>Error: {error.message}</div>
   if (!data) return <div>No data found.</div>
   console.log(data)
@@ -46,6 +47,7 @@ const MovieDetails = () => {
             />
           </div>
         </div>
+
         <div>
           <PageTitle>{data.title}</PageTitle>
           <MovieMetaData data={data} />
