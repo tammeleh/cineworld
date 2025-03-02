@@ -28,7 +28,6 @@ const MovieListTemplate = ({
   error,
   data,
 }: MovieListTemplateProps) => {
-  console.log(data)
   const hasResults = data && data.results && data.results.length > 0
 
   return (
@@ -37,12 +36,12 @@ const MovieListTemplate = ({
         {searchQuery.trim().length > 0 ? 'Search Results' : 'Discover Movies'}
         <SearchInput onChange={onSearchChange} value={searchQuery} />
       </PageTitle>
-      {isLoading && <MovieCardListSkeleton />}
 
       {error ? (
         <div>Error: {error}</div>
       ) : (
         <>
+          {isLoading && <MovieCardListSkeleton />}
           {!hasResults && !isLoading && searchQuery.trim().length > 0 && (
             <div className="mt-12 flex flex-col gap-8 text-center md:mt-12">
               <div className="text-5xl md:text-9xl" aria-label="Shrug">
