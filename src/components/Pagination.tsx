@@ -32,7 +32,7 @@ const Pagination = ({
   const btnBaseStyle =
     'flex h-6 md:h-8 min-w-8 md:min-w-14 transition-colors text-xs md:text-md items-center justify-center rounded disabled:bg-gray-500'
   const arrowBtnStyle = clsx(
-    'group hover:bg-yellow-500 hover:fill-black disabled:bg-transparent',
+    'group hover:bg-yellow-500 hover:fill-black disabled:pointer-events-none disabled:bg-transparent',
     btnBaseStyle,
   )
   const arrowIconStyle =

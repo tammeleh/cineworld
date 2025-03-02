@@ -24,12 +24,12 @@ const Header = () => {
           to="/"
         >
           <img
-            className="size-4 md:size-6"
+            className="fill- size-4 md:size-6"
             alt="CineWorld Logo"
             src="/film.svg"
           />
           <div className="text-lg font-bold md:text-xl" aria-label="Brand">
-            CineWorld
+            Cine<span className="text-yellow-500">W</span>orld
           </div>
         </Link>
         <ul className="md:text-md flex items-center gap-4 text-sm">
