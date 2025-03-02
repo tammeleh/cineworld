@@ -32,7 +32,7 @@ const SearchInput = ({
         type="search"
       />
       <div
-        className="border-border absolute inset-x-0 bottom-0 border-t peer-focus:border-t-2 peer-focus:border-yellow-500"
+        className="border-gray absolute inset-x-0 bottom-0 border-t peer-focus:border-t-2 peer-focus:border-yellow-500"
         aria-hidden="true"
       />
       <button className="absolute top-1/2 right-2 flex size-9 -translate-y-1/2 transform cursor-pointer items-center justify-center">

@@ -16,7 +16,7 @@ const NavItem = ({ children, to }: NavItemProps) => (
 
 const Footer = () => {
   return (
-    <footer className="border-t-border background-card bg-card border-t">
+    <footer className="border-t-gray background-card bg-card border-t">
       <div className="container-with-px flex justify-between gap-6 py-4 text-xs font-light md:text-sm">
         <p>© 2025 CineWorld</p>
         <ul className="flex items-center gap-6">

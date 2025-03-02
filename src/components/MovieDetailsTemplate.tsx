@@ -20,8 +20,7 @@ const MovieDetailsTemplate = ({
   data,
 }: MovieDetailsTemplateProps) => {
   if (error) return <div>Error: {error}</div>
-  if (isLoading) return <MovieDetailsSkeleton />
-  if (!data) return <div>Could not fetch data :(</div>
+  if (isLoading || !data) return <MovieDetailsSkeleton />
 
   // Limit displayed items. Would be nice to build expand buttons/carousels instead.
   const maxCast = 10
@@ -31,7 +30,7 @@ const MovieDetailsTemplate = ({
   return (
     <div className="flex flex-col gap-4 lg:gap-8">
       <section className="flex flex-col gap-4 md:flex-row">
-        <div className="border-border relative aspect-[16/9] w-full overflow-hidden rounded border md:hidden">
+        <div className="border-gray relative aspect-[16/9] w-full overflow-hidden rounded border md:hidden">
           <img
             src={getTmdbImageUrl(data.backdrop_path, 'w500')}
             className="h-full w-full object-cover"
@@ -40,7 +39,7 @@ const MovieDetailsTemplate = ({
           />
         </div>
 
-        <div className="border-border relative hidden aspect-[2/3] w-full max-w-xs overflow-hidden rounded border md:block lg:max-w-auto">
+        <div className="border-gray relative hidden aspect-[2/3] w-full max-w-xs overflow-hidden rounded border md:block lg:max-w-auto">
           <img
             src={getTmdbImageUrl(data.poster_path, 'w780')}
             className="h-full w-full object-cover"

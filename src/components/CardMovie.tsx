@@ -30,7 +30,7 @@ const CardMovie = ({
           className,
         )}
       >
-        <div className="border-border relative aspect-[16/9] w-full overflow-hidden rounded-t border">
+        <div className="border-gray relative aspect-[16/9] w-full overflow-hidden rounded-t border">
           <img
             className="h-full w-full object-cover"
             src={getTmdbImageUrl(imageId)}

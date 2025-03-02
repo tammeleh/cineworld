@@ -10,7 +10,7 @@ import clsx from 'clsx'
 interface MovieListTemplateProps {
   onSearchChange: (e: ChangeEvent<HTMLInputElement>) => void
   onPageChange: (page: number) => void
-  data?: TmdbListResponse
+  data: TmdbListResponse | null
   searchQuery: string
   currentPage: number
   isLoading: boolean

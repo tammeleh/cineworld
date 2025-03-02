@@ -55,8 +55,8 @@ const MovieList = () => {
       currentPage={paginationCurrentPage}
       totalPages={validTotalPages}
       searchQuery={searchQuery}
-      data={data || undefined}
       isLoading={isLoading}
+      data={data || null}
     />
   )
 }

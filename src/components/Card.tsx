@@ -9,7 +9,7 @@ interface CardProps {
 const Card = ({ className, children }: CardProps) => {
   return (
     <section
-      className={clsx('bg-card border-border rounded border p-2', className)}
+      className={clsx('bg-card border-gray rounded border p-2', className)}
     >
       {children}
     </section>

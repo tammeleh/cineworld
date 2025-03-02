@@ -16,7 +16,7 @@ const NavItem = ({ children, to }: NavItemProps) => (
 
 const Header = () => {
   return (
-    <header className="border-b-border border-b">
+    <header className="border-b-gray border-b">
       <div className="container-with-px flex justify-between py-3">
         <Link
           className="flex items-center gap-2"

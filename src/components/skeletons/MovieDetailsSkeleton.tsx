@@ -8,7 +8,7 @@ const MovieDetailsSkeleton = () => {
     <div className="flex flex-col gap-4 lg:gap-8">
       <section className="flex flex-col gap-4 md:flex-row">
         <div className="md:hidden">
-          <div className="border-border aspect-[16/9] w-full rounded border">
+          <div className="border-gray aspect-[16/9] w-full rounded border">
             <Skeleton className="h-full w-full" />
           </div>
         </div>

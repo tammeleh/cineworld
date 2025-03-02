@@ -4,8 +4,7 @@
 @theme {
   --color-background: oklch(0.145 0 0);
   --color-foreground: oklch(0.985 0 0);
-  --color-border: oklch(0.269 0 0);
-  --color-ring: oklch(0.439 0 0);
+  --color-gray: oklch(0.269 0 0);
   --color-card: oklch(0.2 0 0);
 }
 
