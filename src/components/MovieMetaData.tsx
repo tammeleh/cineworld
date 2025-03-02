@@ -36,24 +36,26 @@ const MovieMetaData = ({ className, data }: MovieMetaDataProps) => {
           ))}
         </div>
       )}
-      {data.runtime && (
+      {data.runtime !== null && Number(data.runtime) > 0 && (
         <MetaDataItem label="Duration">
           {formatDuration(data.runtime)}
         </MetaDataItem>
       )}
-      {data.budget && data.budget > 0 && (
+      {Number(data.budget) > 0 && (
         <MetaDataItem label="Budget">
           {formatCurrency(data.budget)}
         </MetaDataItem>
       )}
-      {data.revenue && data.revenue > 0 && (
+      {Number(data.revenue) > 0 && (
         <MetaDataItem label="Revenue">
           {formatCurrency(data.revenue)}
         </MetaDataItem>
       )}
-      <MetaDataItem label="Rating">
-        {formatRating(data.vote_average)} ({data.vote_count} votes)
-      </MetaDataItem>
+      {data.vote_average > 0 && data.vote_count > 0 && (
+        <MetaDataItem label="Rating">
+          {formatRating(data.vote_average)} ({data.vote_count} votes)
+        </MetaDataItem>
+      )}
       {data.original_language && (
         <MetaDataItem label="Language">
           {data.original_language.toUpperCase()}
