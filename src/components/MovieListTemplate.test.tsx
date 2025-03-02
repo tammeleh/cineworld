@@ -55,6 +55,7 @@ describe('MovieListTemplate', () => {
           totalPages={100}
           currentPage={1}
           searchQuery=""
+          data={null}
         />
       </MemoryRouter>,
     )
@@ -72,6 +73,7 @@ describe('MovieListTemplate', () => {
           totalPages={100}
           currentPage={1}
           searchQuery=""
+          data={null}
         />
       </MemoryRouter>,
     )
@@ -88,6 +90,7 @@ describe('MovieListTemplate', () => {
           isLoading={false}
           totalPages={100}
           currentPage={1}
+          data={null}
         />
       </MemoryRouter>,
     )
