@@ -1,19 +1,13 @@
 # CineWorld
 
-## Project setup
+## Setup
 
-- React
-- Vite
-- Typescript
-- TailwindCSS
-- ESlint
-- Prettier
+`npm i` - install dependencies
 
-## How to run project
+## Run project
 
-1. `npm i` - install dependencies
-2. `npm run dev` - open localhost
+`npm run dev` - open localhost
 
-## How to run unit tests
+## Run tests
 
-- `npm run test`
+`npm run test` - run unit tests
