@@ -1,4 +1,5 @@
 import { getTmdbPagination } from '@/utils/getTmdbPagination'
+import withMinLoadingTime from '@/utils/withMinLoadingTime'
 import { TmdbListResponse } from '@/types/tmdb'
 import { useEffect, useState } from 'react'
 
@@ -54,7 +55,9 @@ const useMovies = (queryParams: MoviesParams = {}) => {
         const endpoint = isSearching
           ? '/api/search/movie'
           : '/api/discover/movie'
-        const response = await fetch(`${endpoint}?${params.toString()}`)
+        const response = await withMinLoadingTime(
+          fetch(`${endpoint}?${params.toString()}`),
+        )
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)

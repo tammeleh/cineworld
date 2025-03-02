@@ -1,3 +1,4 @@
+import withMinLoadingTime from '@/utils/withMinLoadingTime'
 import { MovieDetails } from '@/types/tmdb'
 import { useEffect, useState } from 'react'
 
@@ -14,8 +15,10 @@ const useMovieDetails = (movieId?: string) => {
       setError(null)
       try {
         // Forward request to proxy server at ./api/tmdb.js
-        const response = await fetch(
-          `/api/movie/${movieId}?append_to_response=credits,similar,reviews`,
+        const response = await withMinLoadingTime(
+          fetch(
+            `/api/movie/${movieId}?append_to_response=credits,similar,reviews`,
+          ),
         )
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
