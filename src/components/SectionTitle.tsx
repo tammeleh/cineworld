@@ -1,13 +1,12 @@
 import { ReactNode } from 'react'
 import clsx from 'clsx'
 
-const SectionTitle = ({
-  className,
-  children,
-}: {
+interface SectionTitleProps {
   children: ReactNode
   className?: string
-}) => {
+}
+
+const SectionTitle = ({ className, children }: SectionTitleProps) => {
   return (
     <h2
       className={clsx(

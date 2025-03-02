@@ -1,6 +1,7 @@
 import MetaDataItem from '@/components/MetaDataItem'
 import formatDuration from '@/utils/formatDuration'
 import formatCurrency from '@/utils/formatCurrency'
+import formatRating from '@/utils/formatRating'
 import formatDate from '@/utils/formatDate'
 import { MovieDetails } from '@/types/tmdb'
 import { Fragment } from 'react'
@@ -51,7 +52,7 @@ const MovieMetaData = ({ className, data }: MovieMetaDataProps) => {
         </MetaDataItem>
       )}
       <MetaDataItem label="Rating">
-        {data.vote_average} ({data.vote_count} votes)
+        {formatRating(data.vote_average)} ({data.vote_count} votes)
       </MetaDataItem>
       {data.original_language && (
         <MetaDataItem label="Language">

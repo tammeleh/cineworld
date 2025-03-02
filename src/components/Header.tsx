@@ -1,15 +1,20 @@
 import { Link } from 'react-router-dom'
 import { ReactNode } from 'react'
 
-export const Header = () => {
-  const NavItem = ({ children, to }: { children: ReactNode; to: string }) => (
-    <li>
-      <Link className="transition hover:text-yellow-500" to={to}>
-        {children}
-      </Link>
-    </li>
-  )
+interface NavItemProps {
+  children: ReactNode
+  to: string
+}
 
+const NavItem = ({ children, to }: NavItemProps) => (
+  <li>
+    <Link className="transition hover:text-yellow-500" to={to}>
+      {children}
+    </Link>
+  </li>
+)
+
+const Header = () => {
   return (
     <header className="border-b-border border-b">
       <div className="container-with-px flex justify-between py-3">

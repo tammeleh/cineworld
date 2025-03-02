@@ -1,8 +1,7 @@
 import getTmdbImageUrl from '@/utils/getTmdbImageUrl'
 import formatDate from '@/utils/formatDate'
 import { Review } from '@/types/tmdb'
-
-import Card from './Card'
+import Card from '@/components/Card'
 
 interface ReviewCardProps {
   review: Review
@@ -10,9 +9,9 @@ interface ReviewCardProps {
 
 const ReviewCard = ({ review }: ReviewCardProps) => {
   const authorName =
-    review.author_details.name ||
-    review.author_details.username ||
     review.author ||
+    review.author_details.username ||
+    review.author_details.name ||
     'Anonymous'
   const avatarUrl = getTmdbImageUrl(review.author_details.avatar_path, 'w92')
   const formattedDate = formatDate(review.created_at)
@@ -27,20 +26,27 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
         />
         <div>
           <div className="font-semibold">{authorName}</div>
-          <div className="text-xs text-gray-500">{formattedDate}</div>
           {review.author_details.rating != null && (
-            <div className="text-xs text-yellow-500">
-              Rating: {review.author_details.rating}
+            <div className="text-xs">
+              Rating:{' '}
+              <span className="text-yellow-500">
+                {review.author_details.rating}
+              </span>
             </div>
           )}
+          <div className="text-xs text-gray-500">{formattedDate}</div>
         </div>
       </div>
       {/* TODO: Feels fishy, add sanitization to dangerouslySetInnerHTML={{ __html: review.content }} */}
       <div
-        className="text-card-foreground line-clamp-3 text-xs"
         dangerouslySetInnerHTML={{ __html: review.content }}
+        className="line-clamp-3 text-xs text-gray-500"
       />
-      <a className="text-xs text-yellow-500" href={review.url} target="_blank">
+      <a
+        className="mt-2 block text-right text-xs text-yellow-50 hover:underline"
+        href={review.url}
+        target="_blank"
+      >
         Full review
       </a>
     </Card>

@@ -67,6 +67,7 @@ export interface Movie {
   title: string
   id: number
 }
+
 export interface MovieSummary {
   backdrop_path: string | null
   poster_path: string | null

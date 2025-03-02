@@ -1,15 +1,20 @@
 import { Link } from 'react-router-dom'
 import { ReactNode } from 'react'
 
-export const Footer = () => {
-  const NavItem = ({ children, to }: { children: ReactNode; to: string }) => (
-    <li>
-      <Link className="hover:underline" to={to}>
-        {children}
-      </Link>
-    </li>
-  )
+interface NavItemProps {
+  children: ReactNode
+  to: string
+}
 
+const NavItem = ({ children, to }: NavItemProps) => (
+  <li>
+    <Link className="hover:underline" to={to}>
+      {children}
+    </Link>
+  </li>
+)
+
+const Footer = () => {
   return (
     <footer className="border-t-border background-card bg-card border-t">
       <div className="container-with-px flex justify-between gap-6 py-4 text-xs font-light md:text-sm">

@@ -1,13 +1,12 @@
 import { ReactNode } from 'react'
 import clsx from 'clsx'
 
-const PageTitle = ({
-  className,
-  children,
-}: {
+interface PageTitleProps {
   children: ReactNode
   className?: string
-}) => {
+}
+
+const PageTitle = ({ className, children }: PageTitleProps) => {
   return (
     <h1
       className={clsx(
