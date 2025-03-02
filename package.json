@@ -13,7 +13,6 @@
     "test:ui": "vitest"
   },
   "dependencies": {
-    "@types/jest": "^29.5.14",
     "express": "^4.21.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -24,6 +23,7 @@
     "@tailwindcss/vite": "^4.0.9",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.13.5",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
