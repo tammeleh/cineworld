@@ -19,7 +19,7 @@ const MovieDetailsSkeleton = () => {
         </div>
 
         <div className="flex-1">
-          <Skeleton className="mb-4 h-6 w-2/3 lg:h-10" />
+          <Skeleton className="mb-4 h-6 w-1/3 lg:h-10" />
           <div className="mb-4 flex flex-col gap-2">
             <div className="flex gap-2">
               <Skeleton className="h-4 w-20 lg:h-5 lg:w-[120px]" />
