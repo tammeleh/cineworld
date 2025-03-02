@@ -58,9 +58,9 @@ const MovieDetails = () => {
         </div>
       </section>
 
-      <section>
-        <SectionTitle>Cast</SectionTitle>
-        {data.credits?.cast && data.credits.cast.length > 0 ? (
+      {data.credits?.cast && data.credits.cast.length > 0 && (
+        <section>
+          <SectionTitle>Cast</SectionTitle>
           <ul className="flex flex-col flex-wrap gap-8 sm:flex-row">
             {data.credits.cast.slice(0, maxCast).map((member) => (
               <li key={member.id}>
@@ -68,14 +68,12 @@ const MovieDetails = () => {
               </li>
             ))}
           </ul>
-        ) : (
-          <div>No cast information available.</div>
-        )}
-      </section>
+        </section>
+      )}
 
-      <section>
-        <SectionTitle>Reviews</SectionTitle>
-        {data.reviews?.results && data.reviews.results.length > 0 && (
+      {data.reviews?.results && data.reviews.results.length > 0 && (
+        <section>
+          <SectionTitle>Reviews</SectionTitle>
           <ul className="flex flex-col gap-2">
             {data.reviews.results.slice(0, maxReviews).map((review) => (
               <li key={review.id}>
@@ -83,23 +81,21 @@ const MovieDetails = () => {
               </li>
             ))}
           </ul>
-        )}
-      </section>
+        </section>
+      )}
 
-      <section>
-        <Card>
-          {data.similar?.results && data.similar.results.length > 0 && (
-            <>
-              <SectionTitle>Similar Movies</SectionTitle>
-              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {data.similar.results.slice(0, maxSimilar).map((movie) => (
-                  <li key={movie.id}>{movie.title}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </Card>
-      </section>
+      {data.similar?.results && data.similar.results.length > 0 && (
+        <section>
+          <Card>
+            <SectionTitle>Similar Movies</SectionTitle>
+            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {data.similar.results.slice(0, maxSimilar).map((movie) => (
+                <li key={movie.id}>{movie.title}</li>
+              ))}
+            </ul>
+          </Card>
+        </section>
+      )}
     </div>
   )
 }
