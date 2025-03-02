@@ -5,8 +5,8 @@ import SectionTitle from '@/components/SectionTitle'
 import CastMember from '@/components/CastMember'
 import ReviewCard from '@/components/ReviewCard'
 import PageTitle from '@/components/PageTitle'
+import CardMovie from '@/components/CardMovie'
 import { useParams } from 'react-router-dom'
-import Card from '@/components/Card'
 
 const MovieDetails = () => {
   const { id } = useParams()
@@ -19,7 +19,7 @@ const MovieDetails = () => {
 
   // Limit displayed items. Would be nice to build expand buttons/carousels instead.
   const maxCast = 10
-  const maxSimilar = 10
+  const maxSimilar = 3
   const maxReviews = 5
 
   return (
@@ -84,16 +84,23 @@ const MovieDetails = () => {
         </section>
       )}
 
+      {/* https://developer.themoviedb.org/reference/movie-similar - has a note that the results are not very accurate on the API side :( */}
       {data.similar?.results && data.similar.results.length > 0 && (
         <section>
-          <Card>
-            <SectionTitle>Similar Movies</SectionTitle>
-            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {data.similar.results.slice(0, maxSimilar).map((movie) => (
-                <li key={movie.id}>{movie.title}</li>
-              ))}
-            </ul>
-          </Card>
+          <SectionTitle>Similar Movies</SectionTitle>
+          <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3">
+            {data.similar.results.slice(0, maxSimilar).map((movie) => (
+              <li key={movie.id}>
+                <CardMovie
+                  imageId={movie.backdrop_path}
+                  rating={movie.vote_average}
+                  overview={movie.overview}
+                  title={movie.title}
+                  movieId={movie.id}
+                />
+              </li>
+            ))}
+          </ul>
         </section>
       )}
     </div>
