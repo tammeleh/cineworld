@@ -33,9 +33,7 @@ const Header = () => {
           </div>
         </Link>
         <ul className="md:text-md flex items-center gap-4 text-sm">
-          <NavItem to="/">Home</NavItem>
-          <NavItem to="/movies">Movies</NavItem>
-          <NavItem to="/contact">Contact</NavItem>
+          <NavItem to="/">Movies</NavItem>
         </ul>
       </div>
     </header>

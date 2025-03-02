@@ -23,7 +23,7 @@ const CardMovie = ({
   title,
 }: CardMovieProps) => {
   return (
-    <Link className="transition-all hover:scale-50" to={`/movies/${movieId}`}>
+    <Link className="transition-all hover:scale-50" to={`/movie/${movieId}`}>
       <Card
         className={clsx(
           'flex h-full flex-col gap-1 transition-all hover:scale-102',
