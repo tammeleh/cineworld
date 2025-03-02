@@ -14,8 +14,15 @@ describe('Pagination', () => {
       <Pagination onPageChange={vi.fn()} currentPage={5} totalPages={10} />,
     )
     const buttons = screen.getAllByRole('button')
-    expect(buttons.length).toBeGreaterThanOrEqual(3)
+    expect(buttons.length).toEqual(7)
     expect(screen.getAllByText('...')).toHaveLength(2)
+  })
+
+  it('renders pagination buttons without the dots when there is less than 8 total pages', () => {
+    render(<Pagination onPageChange={vi.fn()} currentPage={1} totalPages={7} />)
+    const buttons = screen.getAllByRole('button')
+    expect(buttons.length).toEqual(9)
+    expect(screen.queryAllByText('...')).toHaveLength(0)
   })
 
   it('calls onPageChange when a page number is clicked', () => {
